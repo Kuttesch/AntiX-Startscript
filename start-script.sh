@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Funktion zum Überprüfen der WLAN-Verbindung
+# Überprüfen der WLAN-Verbindung
 check_wifi_connection() {
   nmcli device wifi | grep "WLAN-NAME" | grep "connected"
   if [ $? -eq 0 ]; then
@@ -10,25 +10,22 @@ check_wifi_connection() {
   fi
 }
 
-# Funktion zum Verbinden mit dem WLAN
+# Verbinden mit dem WLAN
 connect_to_wifi() {
   echo "Verbinde mit WLAN..."
   nmcli device wifi connect "WLAN-NAME" password "WLAN-PASSWORT"
 }
 
-# Funktion zum Begrenzen der CPU auf 1 GHz
+# Begrenzen der CPU-Frequenz auf 1 GHz
 limit_cpu_frequency() {
   echo "Begrenze CPU-Frequenz auf 1 GHz..."
-  for ((i=0; i<$(nproc); i++))
-  do
-    echo "1000000" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-  done
+  cpupower frequency-set -d 1GHz
 }
 
-# Funktion zum Starten von Firefox im Vollbildmodus mit der HTML-Datei
-start_firefox_with_html() {
-  echo "Starte Firefox im Vollbildmodus..."
-  firefox -url "file:///home/deinbenutzername/Uhr/dein-html-dokument.html" -fullscreen -foreground
+# Ausblenden des Mauszeigers
+hide_mouse_cursor() {
+  echo "Blende den Mauszeiger aus..."
+  xsetroot -cursor_name none
 }
 
 # Überprüfen, ob bereits eine WLAN-Verbindung besteht
@@ -44,5 +41,10 @@ fi
 # Begrenze CPU auf 1 GHz
 limit_cpu_frequency
 
+# Ausblenden des Mauszeigers
+hide_mouse_cursor
+
 # Starte Firefox im Vollbildmodus mit HTML-Dokument
-start_firefox_with_html
+echo "Starte Firefox im Vollbildmodus..."
+firefox --new-window "file:///home/deinbenutzername/Uhr/dein-html-dokument.html" -kiosk
+
