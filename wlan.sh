@@ -5,14 +5,14 @@ display_status() {
     echo "Status: $1"
 }
 
-# Function to check and connect to WLAN
-check_and_connect_wlan() {
-    connected=$(nmcli connection show --active | grep "WLAN")
-    if [[ -n "$connected" ]]; then
-        display_status "System is already connected to WLAN."
+# Function to check internet connectivity
+check_internet_connectivity() {
+    ping -c 1 google.com >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        display_status "Internet connectivity is available."
     else
-        display_status "System is not connected to WLAN. Attempting connection..."
-        nmcli device wifi connect "WLAN" password "Password"
+        display_status "No internet connectivity. Attempting connection..."
+        nmcli device wifi connect "WLAN" password "PW"
         display_status "Connection attempt complete."
     fi
 }
@@ -24,6 +24,6 @@ display_status "Wi-Fi networks rescan complete."
 
 # Check and connect to WLAN every 10 seconds
 while true; do
-    check_and_connect_wlan
+    check_internet_connectivity
     sleep 1800 # Sleep for 1800 seconds
 done
