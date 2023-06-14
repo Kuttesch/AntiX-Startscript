@@ -25,5 +25,5 @@ display_status "Wi-Fi networks rescan complete."
 # Check and connect to WLAN every 10 seconds
 while true; do
     check_and_connect_wlan
-    sleep 10 # Sleep for 10 seconds
+    sleep 1800 # Sleep for 1800 seconds
 done
