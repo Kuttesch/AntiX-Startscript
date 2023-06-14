@@ -7,8 +7,8 @@ display_status() {
 
 # Function to check and connect to WLAN
 check_and_connect_wlan() {
-    connected=$(nmcli -g GENERAL.STATE connection show --active | grep "WLAN")
-    if [[ "$connected" == "100" ]]; then
+    connected=$(nmcli connection show --active | grep "WLAN")
+    if [[ -n "$connected" ]]; then
         display_status "System is already connected to WLAN."
     else
         display_status "System is not connected to WLAN. Attempting connection..."
@@ -17,8 +17,13 @@ check_and_connect_wlan() {
     fi
 }
 
-# Check and connect to WLAN every 30 minutes
+# Rescan available Wi-Fi networks
+display_status "Rescanning available Wi-Fi networks..."
+nmcli device wifi rescan
+display_status "Wi-Fi networks rescan complete."
+
+# Check and connect to WLAN every 10 seconds
 while true; do
     check_and_connect_wlan
-    sleep 1800 # Sleep for 30 minutes
+    sleep 10 # Sleep for 10 seconds
 done
