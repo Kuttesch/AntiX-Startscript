@@ -21,5 +21,5 @@ else
 fi
 
 # End the script
-display_status "Script execution complete."
+display_status "Firefox execution complete."
 exit 0
