@@ -27,3 +27,4 @@ display_status "/etc/scripts/firefox.sh executed."
 
 # End of script
 display_status "Script execution complete."
+exit 0
